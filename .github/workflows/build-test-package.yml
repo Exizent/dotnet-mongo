@@ -1,0 +1,28 @@
+name: Build, Test and Package
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 0.0.${{ github.run_number }}
+      CONFIGURATION: Release
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: | 
+            3.1.x
+            5.0.x
+            6.0.x
+      - run: dotnet build --configuration ${CONFIGURATION} --no-restore
+      - run: dotnet test --logger "junit;LogFilePath=/TestResults/TestResults.xml" --configuration ${CONFIGURATION} --no-build
+      - run: dotnet pack --configuration Release -p:Version=${VERSION} --no-build
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: TestResults/**/*.xml
+
