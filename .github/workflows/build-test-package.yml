@@ -19,11 +19,11 @@ jobs:
             6.0.x
       - run: dotnet restore
       - run: dotnet build --configuration ${CONFIGURATION} --no-restore
-      - run: dotnet test --logger "junit;LogFilePath=/TestResults/TestResults.xml" --configuration ${CONFIGURATION} --no-build
+      - run: dotnet test --logger "junit" --configuration ${CONFIGURATION} --no-build
       - run: dotnet pack --configuration Release -p:Version=${VERSION} --no-build
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: TestResults/*.xml
+          files: "**/TestResults/*.xml"
 
