@@ -47,9 +47,9 @@ namespace Tools.Net.Mongo
                 }
                 while (argList.Count != 0);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error: An unexpected error occurred.");
+                Console.WriteLine("Error: An unexpected error occurred." + Environment.NewLine + ex.ToString());
             }
 
 #if DEBUG
