@@ -8,8 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      VERSION: ${{ github.run_number }}
-      CONFIGURATION: ${{ github.ref_name }}
+      VERSION: ${{ github.ref_name }}
+      CONFIGURATION: Release
     steps:  
       - uses: actions/checkout@v2
       - name: Setup dotnet
