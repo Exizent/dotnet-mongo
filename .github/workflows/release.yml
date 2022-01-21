@@ -1,14 +1,16 @@
-name: Build, Test and Package
+name: Build, Test, Package and Push
 
-on: [push, pull_request]
-
+on:
+  release:
+    types: [created]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      VERSION: 0.0.${{ github.run_number }}
-      CONFIGURATION: Release
-    steps:
+      VERSION: ${{ github.run_number }}
+      CONFIGURATION: ${{ github.ref_name }}
+    steps:  
       - uses: actions/checkout@v2
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
@@ -27,4 +29,8 @@ jobs:
         if: always()
         with:
           files: "**/TestResults/*.xml"
+      - name: NuGet.Org push
+        run: |
+          dotnet nuget push ./**/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
+      
 
