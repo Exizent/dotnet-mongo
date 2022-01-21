@@ -1,4 +1,6 @@
-﻿using System.IO;
+using System;
+using System.IO;
+using Tools.Net.Cli.Driver.Results;
 using Tools.Net.Cli.Driver.Tools;
 using Xunit;
 
@@ -29,7 +31,7 @@ namespace Tool.Net.Cli.Driver.Test.Tools
         [Fact]
         public void HandleNoProjectFileDirectory()
         {
-            const string filePath = @"test\test.xml";
+            const string filePath = @"test/test.xml";
 
             Assert.Throws<DirectoryNotFoundException>(() => CsProjectFileReader.Read(filePath));
         }
@@ -41,7 +43,7 @@ namespace Tool.Net.Cli.Driver.Test.Tools
         [Fact]
         public void CanCreateCsProjectFileWithTargetFramework()
         {
-            const string filePath = @"Helpers\TestProjFile.xml";
+            const string filePath = @"Helpers/TestProjFile.xml";
 
             var result = CsProjectFileReader.Read(filePath);
 
